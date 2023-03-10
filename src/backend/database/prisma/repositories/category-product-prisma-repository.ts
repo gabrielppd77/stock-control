@@ -17,7 +17,6 @@ export class CategoryProductPrismaRepository
       await this.prisma.categoryProduct.create({
         data: {
           id: categoryProductPrisma.id,
-          title: categoryProductPrisma.title,
           category: categoryProductPrisma.category
             ? {
                 create: categoryProductPrisma.category,

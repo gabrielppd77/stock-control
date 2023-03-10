@@ -37,7 +37,6 @@ export class CategoryProductPrismaMapper {
 
     const categoryProduct = {
       id: categoryProductDomain.id,
-      title: categoryProductDomain.title,
       categoryProductId: categoryProductDomain.categoryProductId,
       categoryId: categoryProductDomain.category?.id,
       category: category,
@@ -75,7 +74,6 @@ export class CategoryProductPrismaMapper {
 
     const categoryProduct = new CategoryProduct({
       id: categoryProductPrisma.id,
-      title: categoryProductPrisma.title,
       categoryProductId: categoryProductPrisma?.categoryProductId || undefined,
       product,
       category,

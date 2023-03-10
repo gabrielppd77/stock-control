@@ -14,16 +14,32 @@ interface CollapseContainerProps<T> {
   renderOption: (option: T) => string;
   onClickEdit: (option: T) => void;
   onClickAdd: (option: T) => void;
+  haveChildrens: (option: T) => boolean;
 }
 
 export function CollapseContainer<T>(props: CollapseContainerProps<T>) {
-  const { option, optionsField, renderOption, onClickEdit, onClickAdd } = props;
+  const {
+    option,
+    optionsField,
+    renderOption,
+    onClickEdit,
+    onClickAdd,
+    haveChildrens,
+  } = props;
 
   const [isOpen, setOpen] = useState(false);
 
   const options = (
     Array.isArray(option[optionsField]) ? option[optionsField] : []
   ) as T[];
+
+  if (!haveChildrens(option))
+    return (
+      <CollapseSimple
+        title={renderOption(option)}
+        onClickEdit={() => onClickEdit(option)}
+      />
+    );
 
   return (
     <div key="collapsible" className="text-gray-800">
@@ -62,29 +78,15 @@ export function CollapseContainer<T>(props: CollapseContainerProps<T>) {
         >
           {isOpen &&
             options.map((nextOption, index) => {
-              const nextOptions = (
-                Array.isArray(nextOption[optionsField])
-                  ? nextOption[optionsField]
-                  : []
-              ) as T[];
-
-              if (nextOptions.length > 0)
-                return (
-                  <CollapseContainer<T>
-                    key={index}
-                    option={nextOption}
-                    optionsField={optionsField}
-                    renderOption={renderOption}
-                    onClickEdit={onClickEdit}
-                    onClickAdd={onClickAdd}
-                  />
-                );
-
               return (
-                <CollapseSimple
+                <CollapseContainer<T>
                   key={index}
-                  title={renderOption(nextOption)}
-                  onClickEdit={() => onClickEdit(nextOption)}
+                  option={nextOption}
+                  optionsField={optionsField}
+                  renderOption={renderOption}
+                  onClickEdit={onClickEdit}
+                  onClickAdd={onClickAdd}
+                  haveChildrens={haveChildrens}
                 />
               );
             })}

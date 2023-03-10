@@ -5,7 +5,6 @@ import { Product } from "./product";
 
 export interface CategoryProductProps {
   id: string;
-  title: string;
   category?: Category;
   product?: Product;
   categoryProductId?: string;
@@ -28,9 +27,6 @@ export class CategoryProduct {
 
   public get id() {
     return this.props.id;
-  }
-  public get title() {
-    return this.props.title;
   }
   public get category() {
     return this.props.category;

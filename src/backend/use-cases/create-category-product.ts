@@ -17,13 +17,7 @@ export class CreateCategoryProduct {
       const { categoryName, productName, productNrRequest, categoryProductId } =
         req;
 
-      let title = "";
-
-      if (categoryName) title = categoryName;
-      if (productName) title = productName;
-
       const categoryProduct = new CategoryProduct({
-        title,
         category: categoryName
           ? new Category({ name: categoryName })
           : undefined,

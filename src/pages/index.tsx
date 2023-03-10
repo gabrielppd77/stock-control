@@ -4,20 +4,39 @@ import axios from "axios";
 
 import { CollapseAddButton } from "@/components/CollapseAddButton";
 import { CollapseContainer } from "@/components/CollapseContainer";
+import { FormCreate } from "@/components/FormCreate";
+import { FormEditProduct } from "@/components/FormEditProduct";
 import { Dialog } from "@/components/Dialog";
 
-import { CategoryProductProps as CategoryProductPropsDomain } from "@/backend/entities/category-product";
+export interface Product {
+  id: string;
+  name: string;
+  dtCreate: string;
+  dtDeparture?: string;
+  nrRequest?: string;
+}
 
-interface CategoryProductProps extends CategoryProductPropsDomain {
-  categoriesProducts: CategoryProductPropsDomain[];
+export interface Category {
+  id: string;
+  name: string;
+}
+
+export interface CategoryProductProps {
+  id: string;
+  categoriesProducts: CategoryProductProps[];
   categoryId: string;
   productId: string;
+  product: Product;
+  category: Category;
 }
 
 export default function Home() {
   const [data, setData] = useState<CategoryProductProps[]>([]);
+  const [dataFormEditProduct, setDataFormEditProduct] = useState<Product>();
+  const [idParent, setIdParent] = useState<string | null>("");
   const [isLoading, setLoading] = useState(false);
-  const [isOpenDialog, setOpenDialog] = useState(false);
+  const [isOpenDialogCreate, setOpenDialogCreate] = useState(false);
+  const [isOpenDialogEditProduct, setOpenDialogEditProduct] = useState(false);
 
   const getData = useCallback(async () => {
     setLoading(true);
@@ -35,18 +54,32 @@ export default function Home() {
     getData();
   }, [getData]);
 
-  async function handleClickAdd() {
-    await axios.post("/api/category-product", {
-      categoryProductId: "bdcfb59e-be01-4206-883c-6e24b35809d5",
-      // categoryName: "Mesas de canto",
-      productName: "Mesa de canto direita",
-      productNrRequest: "132131",
-    });
-    getData();
+  function toggleOpenDialogCreate() {
+    setOpenDialogCreate((prev) => !prev);
   }
 
-  function onOpenChange() {
-    setOpenDialog((prev) => !prev);
+  function toggleOpenDialogEditProduct() {
+    setOpenDialogEditProduct((prev) => !prev);
+  }
+
+  async function handleAfterSubmitFormCreate() {
+    getData();
+    toggleOpenDialogCreate();
+  }
+
+  async function handleAfterSubmitFormEditProduct() {
+    getData();
+    toggleOpenDialogEditProduct();
+  }
+
+  function onClickAdd(parentId: string | null) {
+    setIdParent(parentId);
+    toggleOpenDialogCreate();
+  }
+
+  function onClickEditProduct(product: Product) {
+    setDataFormEditProduct(product);
+    toggleOpenDialogEditProduct();
   }
 
   return (
@@ -62,14 +95,42 @@ export default function Home() {
           <CollapseContainer<CategoryProductProps>
             key={d.id}
             option={d}
-            onClickAdd={onOpenChange}
-            renderOption={(opt) => opt.title}
-            onClickEdit={(opt) => console.log(opt)}
+            haveChildrens={(opt) => opt.categoryId !== null}
+            renderOption={(opt) =>
+              opt.category
+                ? opt.category.name
+                : opt.product
+                ? opt.product.name
+                : ""
+            }
             optionsField="categoriesProducts"
+            onClickAdd={(opt) => onClickAdd(opt.id)}
+            onClickEdit={(opt) => onClickEditProduct(opt.product)}
           />
         ))}
-        <CollapseAddButton onClickAdd={onOpenChange} />
-        <Dialog isOpen={isOpenDialog} onOpenChange={onOpenChange} />
+        <CollapseAddButton onClickAdd={() => onClickAdd(null)} />
+        <Dialog
+          title="Categoria/Produto"
+          isOpen={isOpenDialogCreate}
+          onOpenChange={toggleOpenDialogCreate}
+        >
+          <FormCreate
+            onCancel={toggleOpenDialogCreate}
+            handleSubmit={handleAfterSubmitFormCreate}
+            idParent={idParent}
+          />
+        </Dialog>
+        <Dialog
+          title="Editar um Produto"
+          isOpen={isOpenDialogEditProduct}
+          onOpenChange={toggleOpenDialogEditProduct}
+        >
+          <FormEditProduct
+            handleSubmit={handleAfterSubmitFormEditProduct}
+            data={dataFormEditProduct}
+            onCancel={toggleOpenDialogEditProduct}
+          />
+        </Dialog>
       </div>
     </main>
   );

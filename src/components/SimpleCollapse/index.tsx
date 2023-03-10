@@ -11,12 +11,12 @@ export function CollapseSimple(props: CollapseSimpleProps) {
   const { title, onClickEdit } = props;
 
   return (
-    <div
-      key={`collapsible`}
+    <button
       className={clsx(
         "group",
         "flex select-none items-center justify-between rounded px-4 py-2 text-left text-sm font-medium",
-        "bg-white hover:bg-gray-50"
+        "bg-white hover:bg-gray-50 text-gray-700",
+        "hover:cursor-default focus:outline-none focus-visible:ring focus-visible:ring-green-500 focus-visible:ring-opacity-75"
       )}
     >
       {title}
@@ -26,6 +26,6 @@ export function CollapseSimple(props: CollapseSimpleProps) {
           onClick={onClickEdit}
         />
       </div>
-    </div>
+    </button>
   );
 }

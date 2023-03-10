@@ -3,6 +3,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { CreateCategoryProduct } from "@/backend/use-cases/create-category-product";
 
 import { CategoryProductPrismaRepository } from "@/backend/database/prisma/repositories/category-product-prisma-repository";
+import { GetAllCategoryProduct } from "@/backend/use-cases/get-all-category-product";
 
 const categoryProductPrismaRepository = new CategoryProductPrismaRepository();
 
@@ -42,7 +43,10 @@ async function create(req: NextApiRequest, res: NextApiResponse) {
 
 export async function getAll(req: NextApiRequest, res: NextApiResponse) {
   try {
-    return res.status(200).send(await categoryProductPrismaRepository.getAll());
+    const getAllCategoryProduct = new GetAllCategoryProduct(
+      categoryProductPrismaRepository
+    );
+    return res.status(200).send(await getAllCategoryProduct.execute());
   } catch (error) {
     return res.status(500).send(error);
   }
