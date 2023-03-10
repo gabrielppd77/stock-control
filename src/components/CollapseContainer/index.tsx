@@ -13,6 +13,7 @@ interface CollapseContainerProps<T> {
   optionsField: keyof T;
   renderOption: (option: T) => string;
   onClickEdit: (option: T) => void;
+  onClickDelete: (option: T) => void;
   onClickAdd: (option: T) => void;
   haveChildrens: (option: T) => boolean;
 }
@@ -23,6 +24,7 @@ export function CollapseContainer<T>(props: CollapseContainerProps<T>) {
     optionsField,
     renderOption,
     onClickEdit,
+    onClickDelete,
     onClickAdd,
     haveChildrens,
   } = props;
@@ -38,6 +40,7 @@ export function CollapseContainer<T>(props: CollapseContainerProps<T>) {
       <CollapseSimple
         title={renderOption(option)}
         onClickEdit={() => onClickEdit(option)}
+        onClickDelete={() => onClickDelete(option)}
       />
     );
 
@@ -85,6 +88,7 @@ export function CollapseContainer<T>(props: CollapseContainerProps<T>) {
                   optionsField={optionsField}
                   renderOption={renderOption}
                   onClickEdit={onClickEdit}
+                  onClickDelete={onClickDelete}
                   onClickAdd={onClickAdd}
                   haveChildrens={haveChildrens}
                 />

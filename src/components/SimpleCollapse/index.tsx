@@ -1,14 +1,15 @@
 import clsx from "clsx";
 
-import { MdEdit } from "react-icons/md";
+import { MdEdit, MdClose } from "react-icons/md";
 
 interface CollapseSimpleProps {
   title: string;
   onClickEdit: () => void;
+  onClickDelete: () => void;
 }
 
 export function CollapseSimple(props: CollapseSimpleProps) {
-  const { title, onClickEdit } = props;
+  const { title, onClickEdit, onClickDelete } = props;
 
   return (
     <button
@@ -24,6 +25,10 @@ export function CollapseSimple(props: CollapseSimpleProps) {
         <MdEdit
           className="cursor-pointer text-base text-gray-500 hover:text-gray-700"
           onClick={onClickEdit}
+        />
+        <MdClose
+          className="cursor-pointer text-base text-gray-500 hover:text-gray-700"
+          onClick={onClickDelete}
         />
       </div>
     </button>

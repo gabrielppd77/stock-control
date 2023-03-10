@@ -82,6 +82,22 @@ export default function Home() {
     toggleOpenDialogEditProduct();
   }
 
+  async function onClickRemoveProduct(product: Product) {
+    setLoading(true);
+    try {
+      await axios.delete("/api/product", {
+        data: {
+          id: product.id,
+        },
+      });
+      getData();
+    } catch (error: any) {
+      throw new Error(error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
   return (
     <main className="flex justify-center">
       <div className="w-full max-w-7xl p-8 flex flex-col gap-4">
@@ -106,6 +122,7 @@ export default function Home() {
             optionsField="categoriesProducts"
             onClickAdd={(opt) => onClickAdd(opt.id)}
             onClickEdit={(opt) => onClickEditProduct(opt.product)}
+            onClickDelete={(opt) => onClickRemoveProduct(opt.product)}
           />
         ))}
         <CollapseAddButton onClickAdd={() => onClickAdd(null)} />

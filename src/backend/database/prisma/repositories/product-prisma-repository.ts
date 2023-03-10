@@ -21,4 +21,16 @@ export class ProductPrismaRepository implements ProductRepository {
       throw new Error(err);
     }
   }
+
+  async remove(idToRemove: string): Promise<void> {
+    try {
+      await this.prisma.product.delete({
+        where: {
+          id: idToRemove,
+        },
+      });
+    } catch (error: any) {
+      throw new Error(error);
+    }
+  }
 }
