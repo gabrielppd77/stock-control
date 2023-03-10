@@ -16,12 +16,6 @@ interface FormEditProductProps {
 export function FormEditProduct(props: FormEditProductProps) {
   const { data, onCancel, handleSubmit } = props;
 
-  // data?.product?.id;
-  // data?.product?.name;
-  // data?.product?.nrRequest;
-  // data?.product?.dtCreate;
-  // data?.product?.dtDeparture;
-
   const [isLoading, setLoading] = useState(false);
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
@@ -29,13 +23,17 @@ export function FormEditProduct(props: FormEditProductProps) {
     try {
       event.preventDefault();
       const form = new FormData(event.target as HTMLFormElement);
-      const idProduct = data?.id;
+
+      const nrRequest = form.get("nrRequest") as string;
+      const dtDeparture = form.get("dtDeparture") as string;
+
       const dataRequest = {
+        id: data?.id,
         name: form.get("name") as string,
-        nrRequest: form.get("nrRequest") as string,
-        dtDeparture: form.get("dtDeparture") as string,
+        nrRequest: nrRequest ? nrRequest : null,
+        dtDeparture: dtDeparture ? new Date(dtDeparture) : null,
       };
-      await axios.post(`/api/product/${idProduct}`, dataRequest);
+      await axios.put("/api/product", dataRequest);
       handleSubmit();
     } catch (error) {
       console.error(error);

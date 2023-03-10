@@ -5,6 +5,10 @@ export class GetAllCategoryProduct {
   constructor(private categoryProductRepository: CategoryProductRepository) {}
 
   async execute(): Promise<CategoryProduct[]> {
-    return await this.categoryProductRepository.getAll();
+    try {
+      return await this.categoryProductRepository.getAll();
+    } catch (err: any) {
+      throw new Error(err);
+    }
   }
 }

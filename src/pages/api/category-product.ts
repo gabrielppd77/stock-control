@@ -21,14 +21,14 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 
 async function create(req: NextApiRequest, res: NextApiResponse) {
   try {
-    const createCategory = new CreateCategoryProduct(
+    const createCategoryProduct = new CreateCategoryProduct(
       categoryProductPrismaRepository
     );
 
     const { categoryProductId, categoryName, productName, productNrRequest } =
       req.body;
 
-    await createCategory.execute({
+    await createCategoryProduct.execute({
       categoryProductId,
       categoryName,
       productName,
