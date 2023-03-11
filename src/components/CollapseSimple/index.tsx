@@ -1,6 +1,7 @@
 import clsx from "clsx";
 
 import { MdEdit, MdClose } from "react-icons/md";
+import { GiUnicorn } from "react-icons/gi";
 
 interface CollapseSimpleProps {
   title: string;
@@ -20,7 +21,10 @@ export function CollapseSimple(props: CollapseSimpleProps) {
         "hover:cursor-default focus:outline-none focus-visible:ring focus-visible:ring-green-500 focus-visible:ring-opacity-75"
       )}
     >
-      {title}
+      <div className="flex gap-2 items-center">
+        <GiUnicorn />
+        {title}
+      </div>
       <div className="hidden items-center space-x-3 group-hover:flex">
         <MdEdit
           className="cursor-pointer text-base text-gray-500 hover:text-gray-700"

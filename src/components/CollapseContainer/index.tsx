@@ -3,9 +3,9 @@ import { useState } from "react";
 import clsx from "clsx";
 
 import { Transition } from "@headlessui/react";
-import { MdExpandMore, MdCategory } from "react-icons/md";
+import { MdExpandMore, MdCategory, MdEdit, MdClose } from "react-icons/md";
 
-import { CollapseSimple } from "../SimpleCollapse";
+import { CollapseSimple } from "../CollapseSimple";
 import { CollapseAddButton } from "../CollapseAddButton";
 
 interface CollapseContainerProps<T> {
@@ -45,10 +45,10 @@ export function CollapseContainer<T>(props: CollapseContainerProps<T>) {
     );
 
   return (
-    <div key="collapsible" className="text-gray-800">
+    <div key="collapse" className="text-gray-800 group">
       <button
         className={clsx(
-          "w-full flex justify-between px-4 items-center h-11 font-bold rounded",
+          "w-full flex justify-between items-center px-4 h-11 font-bold rounded",
           "bg-slate-200",
           "hover:brightness-90 duration-300",
           "focus:outline-none focus-visible:ring focus-visible:ring-green-300 focus-visible:ring-opacity-75",
@@ -59,12 +59,15 @@ export function CollapseContainer<T>(props: CollapseContainerProps<T>) {
         <div className="flex gap-4 items-center">
           <MdCategory /> {renderOption(option)}
         </div>
-        <MdExpandMore
-          className={clsx(
-            "transform duration-300 ease-in-out text-xl",
-            !isOpen && "rotate-180"
-          )}
-        />
+
+        <div className="flex gap-4">
+          <MdExpandMore
+            className={clsx(
+              "transform duration-300 ease-in-out text-xl",
+              !isOpen && "rotate-180"
+            )}
+          />
+        </div>
       </button>
       <Transition.Root show={isOpen}>
         <Transition.Child
@@ -97,6 +100,17 @@ export function CollapseContainer<T>(props: CollapseContainerProps<T>) {
           <CollapseAddButton onClickAdd={() => onClickAdd(option)} />
         </Transition.Child>
       </Transition.Root>
+
+      <div className="hidden items-center absolute space-x-3 group-hover:flex">
+        <MdEdit
+          className="cursor-pointer text-base text-gray-500 hover:text-gray-700"
+          onClick={() => onClickEdit(option)}
+        />
+        <MdClose
+          className="cursor-pointer text-base text-gray-500 hover:text-gray-700"
+          onClick={() => onClickDelete(option)}
+        />
+      </div>
     </div>
   );
 }

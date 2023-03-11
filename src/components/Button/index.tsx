@@ -14,7 +14,7 @@ export function Button(props: ButtonProps) {
   const {
     children,
     variant = "contained",
-    type,
+    type = "button",
     onClick,
     isLoading = false,
   } = props;

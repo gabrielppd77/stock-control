@@ -82,4 +82,16 @@ export class CategoryProductPrismaRepository
       throw new Error(error);
     }
   }
+
+  async remove(idToRemove: string): Promise<void> {
+    try {
+      await this.prisma.categoryProduct.delete({
+        where: {
+          id: idToRemove,
+        },
+      });
+    } catch (error: any) {
+      throw new Error(error);
+    }
+  }
 }

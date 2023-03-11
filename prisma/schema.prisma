@@ -13,11 +13,8 @@ datasource db {
 model CategoryProduct {
   id String @id
 
-  category Category? @relation(fields: [categoryId], references: [id], onDelete: Cascade)
-  product  Product?  @relation(fields: [productId], references: [id], onDelete: Cascade)
-
-  categoryId String?
-  productId  String?
+  category Category?
+  product  Product?
 
   categoriesProducts CategoryProduct[] @relation("CategoryOrProduct")
 
@@ -31,7 +28,8 @@ model Category {
   id   String @id
   name String
 
-  CategoryProduct CategoryProduct[]
+  categoryProduct   CategoryProduct @relation(fields: [categoryProductId], references: [id], onDelete: Cascade)
+  categoryProductId String          @unique
 
   @@map("categories")
 }
@@ -43,7 +41,8 @@ model Product {
   dtDeparture DateTime?
   nrRequest   String?
 
-  CategoryProduct CategoryProduct[]
+  categoryProduct   CategoryProduct @relation(fields: [categoryProductId], references: [id], onDelete: Cascade)
+  categoryProductId String          @unique
 
   @@map("products")
 }

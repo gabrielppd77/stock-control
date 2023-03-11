@@ -9,7 +9,7 @@ import { GrClose } from "react-icons/gr";
 
 interface DialogProps {
   isOpen: boolean;
-  title: string;
+  title: string | ReactNode;
   onOpenChange: (open: boolean) => void;
   children: ReactNode;
 }

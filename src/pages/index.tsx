@@ -7,6 +7,11 @@ import { CollapseContainer } from "@/components/CollapseContainer";
 import { FormCreate } from "@/components/FormCreate";
 import { FormEditProduct } from "@/components/FormEditProduct";
 import { Dialog } from "@/components/Dialog";
+import { FormWarningDelete } from "@/components/FormWarningDelete";
+import { FormEditCategory } from "@/components/FormEditCategory";
+
+import { GiUnicorn } from "react-icons/gi";
+import { MdCategory } from "react-icons/md";
 
 export interface Product {
   id: string;
@@ -33,10 +38,16 @@ export interface CategoryProductProps {
 export default function Home() {
   const [data, setData] = useState<CategoryProductProps[]>([]);
   const [dataFormEditProduct, setDataFormEditProduct] = useState<Product>();
+  const [dataFormEditCategory, setDataFormEditCategory] = useState<Category>();
   const [idParent, setIdParent] = useState<string | null>("");
   const [isLoading, setLoading] = useState(false);
   const [isOpenDialogCreate, setOpenDialogCreate] = useState(false);
   const [isOpenDialogEditProduct, setOpenDialogEditProduct] = useState(false);
+  const [isOpenDialogEditCategory, setOpenDialogEditCategory] = useState(false);
+  const [isOpenDialogWarningRemove, setOpenDialogWarningRemove] =
+    useState(false);
+  const [dataDialogWarningRemove, setDataDialogWarningRemove] =
+    useState<CategoryProductProps>();
 
   const getData = useCallback(async () => {
     setLoading(true);
@@ -61,6 +72,13 @@ export default function Home() {
   function toggleOpenDialogEditProduct() {
     setOpenDialogEditProduct((prev) => !prev);
   }
+  function toggleOpenDialogEditCategory() {
+    setOpenDialogEditCategory((prev) => !prev);
+  }
+
+  function toggleOpenDialogWarningRemove() {
+    setOpenDialogWarningRemove((prev) => !prev);
+  }
 
   async function handleAfterSubmitFormCreate() {
     getData();
@@ -70,6 +88,18 @@ export default function Home() {
   async function handleAfterSubmitFormEditProduct() {
     getData();
     toggleOpenDialogEditProduct();
+  }
+
+  async function handleAfterSubmitFormEditCategory() {
+    getData();
+    toggleOpenDialogEditCategory();
+  }
+
+  function handleAfterSubmitFormWarningRemove() {
+    if (dataDialogWarningRemove) {
+      toggleOpenDialogWarningRemove();
+      onClickDelete(dataDialogWarningRemove);
+    }
   }
 
   function onClickAdd(parentId: string | null) {
@@ -82,12 +112,28 @@ export default function Home() {
     toggleOpenDialogEditProduct();
   }
 
-  async function onClickRemoveProduct(product: Product) {
+  function onClickEditCategory(category: Category) {
+    setDataFormEditCategory(category);
+    toggleOpenDialogEditCategory();
+  }
+
+  function onClickEdit(categoryProduct: CategoryProductProps) {
+    if (categoryProduct.product)
+      return onClickEditProduct(categoryProduct.product);
+    onClickEditCategory(categoryProduct.category);
+  }
+
+  function onClickOpenWarningRemove(categoryProduct: CategoryProductProps) {
+    toggleOpenDialogWarningRemove();
+    setDataDialogWarningRemove(categoryProduct);
+  }
+
+  async function onClickDelete(categoryProduct: CategoryProductProps) {
     setLoading(true);
     try {
-      await axios.delete("/api/product", {
+      await axios.delete("/api/category-product", {
         data: {
-          id: product.id,
+          id: categoryProduct.id,
         },
       });
       getData();
@@ -111,7 +157,7 @@ export default function Home() {
           <CollapseContainer<CategoryProductProps>
             key={d.id}
             option={d}
-            haveChildrens={(opt) => opt.categoryId !== null}
+            haveChildrens={(opt) => opt.category !== null}
             renderOption={(opt) =>
               opt.category
                 ? opt.category.name
@@ -121,8 +167,8 @@ export default function Home() {
             }
             optionsField="categoriesProducts"
             onClickAdd={(opt) => onClickAdd(opt.id)}
-            onClickEdit={(opt) => onClickEditProduct(opt.product)}
-            onClickDelete={(opt) => onClickRemoveProduct(opt.product)}
+            onClickEdit={(opt) => onClickEdit(opt)}
+            onClickDelete={(opt) => onClickOpenWarningRemove(opt)}
           />
         ))}
         <CollapseAddButton onClickAdd={() => onClickAdd(null)} />
@@ -138,7 +184,12 @@ export default function Home() {
           />
         </Dialog>
         <Dialog
-          title="Editar um Produto"
+          title={
+            <div className="flex items-center gap-4">
+              <GiUnicorn />
+              Editar Produto
+            </div>
+          }
           isOpen={isOpenDialogEditProduct}
           onOpenChange={toggleOpenDialogEditProduct}
         >
@@ -146,6 +197,34 @@ export default function Home() {
             handleSubmit={handleAfterSubmitFormEditProduct}
             data={dataFormEditProduct}
             onCancel={toggleOpenDialogEditProduct}
+          />
+        </Dialog>
+
+        <Dialog
+          title={
+            <div className="flex items-center gap-4">
+              <MdCategory />
+              Editar Categoria
+            </div>
+          }
+          isOpen={isOpenDialogEditCategory}
+          onOpenChange={toggleOpenDialogEditCategory}
+        >
+          <FormEditCategory
+            handleSubmit={handleAfterSubmitFormEditCategory}
+            data={dataFormEditCategory}
+            onCancel={toggleOpenDialogEditCategory}
+          />
+        </Dialog>
+
+        <Dialog
+          title="Confirme a remoção"
+          isOpen={isOpenDialogWarningRemove}
+          onOpenChange={toggleOpenDialogWarningRemove}
+        >
+          <FormWarningDelete
+            handleSubmit={handleAfterSubmitFormWarningRemove}
+            onCancel={toggleOpenDialogWarningRemove}
           />
         </Dialog>
       </div>
