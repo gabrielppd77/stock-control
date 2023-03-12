@@ -103,19 +103,15 @@ export function CollapseContainer<T>(props: CollapseContainerProps<T>) {
         </Transition.Root>
       </div>
 
-      <div className="items-center absolute left-auto space-x-3 flex">
-        <div className="rounded-[50%] bg-slate-300 p-1">
-          <MdEdit
-            className="cursor-pointer text-base text-gray-500 hover:text-gray-700 h-5 w-5"
-            onClick={() => onClickEdit(option)}
-          />
-        </div>
-        <div className="rounded-[50%] bg-slate-300 p-1">
-          <MdClose
-            className="cursor-pointer text-base text-gray-500 hover:text-gray-700 h-5 w-5"
-            onClick={() => onClickDelete(option)}
-          />
-        </div>
+      <div className="flex items-center absolute right-auto mr-11 mt-3 space-x-3">
+        <MdEdit
+          className="cursor-pointer text-base text-gray-500 hover:text-gray-700 h-5 w-5"
+          onClick={() => onClickEdit(option)}
+        />
+        <MdClose
+          className="cursor-pointer text-base text-gray-500 hover:text-gray-700 h-5 w-5"
+          onClick={() => onClickDelete(option)}
+        />
       </div>
     </div>
   );
