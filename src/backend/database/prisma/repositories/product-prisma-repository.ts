@@ -21,4 +21,18 @@ export class ProductPrismaRepository implements ProductRepository {
       throw new Error(err);
     }
   }
+
+  async getAllWithDtDeparture(): Promise<any[]> {
+    try {
+      return await this.prisma.product.findMany({
+        where: {
+          dtDeparture: {
+            not: null,
+          },
+        },
+      });
+    } catch (err: any) {
+      throw new Error(err);
+    }
+  }
 }
