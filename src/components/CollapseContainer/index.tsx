@@ -45,71 +45,77 @@ export function CollapseContainer<T>(props: CollapseContainerProps<T>) {
     );
 
   return (
-    <div key="collapse" className="text-gray-800 group">
-      <button
-        className={clsx(
-          "w-full flex justify-between items-center px-4 h-11 font-bold rounded",
-          "bg-slate-200",
-          "hover:brightness-90 duration-300",
-          "focus:outline-none focus-visible:ring focus-visible:ring-green-300 focus-visible:ring-opacity-75",
-          isOpen && "rounded-none rounded-t"
-        )}
-        onClick={() => setOpen((prev) => !prev)}
-      >
-        <div className="flex gap-4 items-center">
-          <MdCategory /> {renderOption(option)}
-        </div>
+    <div key="collapse" className="text-gray-800 flex items-start justify-end">
+      <div className="w-full">
+        <button
+          className={clsx(
+            "w-full flex justify-between items-center px-4 h-11 font-bold rounded",
+            "bg-slate-200",
+            "hover:brightness-90 duration-300",
+            "focus:outline-none focus-visible:ring focus-visible:ring-green-300 focus-visible:ring-opacity-75",
+            isOpen && "rounded-none rounded-t"
+          )}
+          onClick={() => setOpen((prev) => !prev)}
+        >
+          <div className="flex gap-4 items-center">
+            <MdCategory /> {renderOption(option)}
+          </div>
 
-        <div className="flex gap-4">
-          <MdExpandMore
+          <div className="flex gap-4">
+            <MdExpandMore
+              className={clsx(
+                "transform duration-300 ease-in-out text-xl",
+                !isOpen && "rotate-180"
+              )}
+            />
+          </div>
+        </button>
+        <Transition.Root show={isOpen}>
+          <Transition.Child
+            enter="ease-out duration-500"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
             className={clsx(
-              "transform duration-300 ease-in-out text-xl",
-              !isOpen && "rotate-180"
+              "w-full bg-slate-400 flex flex-col gap-2",
+              isOpen && "py-3 px-5 rounded-b"
             )}
+          >
+            {isOpen &&
+              options.map((nextOption, index) => {
+                return (
+                  <CollapseContainer<T>
+                    key={index}
+                    option={nextOption}
+                    optionsField={optionsField}
+                    renderOption={renderOption}
+                    onClickEdit={onClickEdit}
+                    onClickDelete={onClickDelete}
+                    onClickAdd={onClickAdd}
+                    haveChildrens={haveChildrens}
+                  />
+                );
+              })}
+            <CollapseAddButton onClickAdd={() => onClickAdd(option)} />
+          </Transition.Child>
+        </Transition.Root>
+      </div>
+
+      <div className="items-center absolute left-auto space-x-3 flex">
+        <div className="rounded-[50%] bg-slate-300 p-1">
+          <MdEdit
+            className="cursor-pointer text-base text-gray-500 hover:text-gray-700 h-5 w-5"
+            onClick={() => onClickEdit(option)}
           />
         </div>
-      </button>
-      <Transition.Root show={isOpen}>
-        <Transition.Child
-          enter="ease-out duration-500"
-          enterFrom="opacity-0"
-          enterTo="opacity-100"
-          leave="ease-in duration-200"
-          leaveFrom="opacity-100"
-          leaveTo="opacity-0"
-          className={clsx(
-            "w-full bg-slate-400 flex flex-col gap-2",
-            isOpen && "py-3 px-5 rounded-b"
-          )}
-        >
-          {isOpen &&
-            options.map((nextOption, index) => {
-              return (
-                <CollapseContainer<T>
-                  key={index}
-                  option={nextOption}
-                  optionsField={optionsField}
-                  renderOption={renderOption}
-                  onClickEdit={onClickEdit}
-                  onClickDelete={onClickDelete}
-                  onClickAdd={onClickAdd}
-                  haveChildrens={haveChildrens}
-                />
-              );
-            })}
-          <CollapseAddButton onClickAdd={() => onClickAdd(option)} />
-        </Transition.Child>
-      </Transition.Root>
-
-      <div className="hidden items-center absolute space-x-3 group-hover:flex">
-        <MdEdit
-          className="cursor-pointer text-base text-gray-500 hover:text-gray-700"
-          onClick={() => onClickEdit(option)}
-        />
-        <MdClose
-          className="cursor-pointer text-base text-gray-500 hover:text-gray-700"
-          onClick={() => onClickDelete(option)}
-        />
+        <div className="rounded-[50%] bg-slate-300 p-1">
+          <MdClose
+            className="cursor-pointer text-base text-gray-500 hover:text-gray-700 h-5 w-5"
+            onClick={() => onClickDelete(option)}
+          />
+        </div>
       </div>
     </div>
   );

@@ -1,9 +1,41 @@
-import { PrismaClient } from "@prisma/client";
+import {
+  PrismaClient,
+  CategoryProduct as CategoryProductPrisma,
+  Category as CategoryPrisma,
+  Product as ProductPrisma,
+} from "@prisma/client";
 
 import { CategoryProductRepository } from "@/backend/repositories/category-product-repository";
 
 import { CategoryProduct } from "@/backend/entities/category-product";
 import { CategoryProductPrismaMapper } from "../mappers/category-product-prisma-mapper";
+
+interface CategoryProductWithIncludes extends CategoryProductPrisma {
+  category: CategoryPrisma | null;
+  product: ProductPrisma | null;
+  categoriesProducts: CategoryProductWithIncludes[] | null;
+}
+
+function removeProductsWithDtDeparture(
+  categoriesProducts: CategoryProductWithIncludes[] | null
+): CategoryProductWithIncludes[] | [] {
+  if (!Array.isArray(categoriesProducts)) return [];
+  if (!(categoriesProducts.length > 0)) return [];
+
+  const categoriesProductsFiltred = [] as CategoryProductWithIncludes[];
+
+  categoriesProducts.forEach((dt) => {
+    if (dt?.product?.dtDeparture != null) return;
+
+    dt.categoriesProducts = removeProductsWithDtDeparture(
+      dt.categoriesProducts
+    );
+
+    categoriesProductsFiltred.push(dt);
+  });
+
+  return categoriesProductsFiltred;
+}
 
 export class CategoryProductPrismaRepository
   implements CategoryProductRepository
@@ -77,7 +109,7 @@ export class CategoryProductPrismaRepository
           },
         },
       });
-      return categoryProducts;
+      return removeProductsWithDtDeparture(categoryProducts);
     } catch (error: any) {
       throw new Error(error);
     }

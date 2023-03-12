@@ -145,89 +145,86 @@ export default function Home() {
   }
 
   return (
-    <main className="flex justify-center">
-      <div className="w-full max-w-7xl p-8 flex flex-col gap-4">
-        <h1 className="text-3xl font-semibold my-2">Controle de Estoque</h1>
-        {isLoading ? (
-          <div className="h-2 bg-green-500 rounded animate-pulse" />
-        ) : (
-          <div className="h-2" />
-        )}
-        {data.map((d) => (
-          <CollapseContainer<CategoryProductProps>
-            key={d.id}
-            option={d}
-            haveChildrens={(opt) => opt.category !== null}
-            renderOption={(opt) =>
-              opt.category
-                ? opt.category.name
-                : opt.product
-                ? opt.product.name
-                : ""
-            }
-            optionsField="categoriesProducts"
-            onClickAdd={(opt) => onClickAdd(opt.id)}
-            onClickEdit={(opt) => onClickEdit(opt)}
-            onClickDelete={(opt) => onClickOpenWarningRemove(opt)}
-          />
-        ))}
-        <CollapseAddButton onClickAdd={() => onClickAdd(null)} />
-        <Dialog
-          title="Categoria/Produto"
-          isOpen={isOpenDialogCreate}
-          onOpenChange={toggleOpenDialogCreate}
-        >
-          <FormCreate
-            onCancel={toggleOpenDialogCreate}
-            handleSubmit={handleAfterSubmitFormCreate}
-            idParent={idParent}
-          />
-        </Dialog>
-        <Dialog
-          title={
-            <div className="flex items-center gap-4">
-              <GiUnicorn />
-              Editar Produto
-            </div>
+    <main className="flex flex-col gap-4">
+      {isLoading ? (
+        <div className="h-2 bg-green-500 rounded animate-pulse" />
+      ) : (
+        <div className="h-2" />
+      )}
+      {data.map((d) => (
+        <CollapseContainer<CategoryProductProps>
+          key={d.id}
+          option={d}
+          haveChildrens={(opt) => opt.category !== null}
+          renderOption={(opt) =>
+            opt.category
+              ? opt.category.name
+              : opt.product
+              ? opt.product.name
+              : ""
           }
-          isOpen={isOpenDialogEditProduct}
-          onOpenChange={toggleOpenDialogEditProduct}
-        >
-          <FormEditProduct
-            handleSubmit={handleAfterSubmitFormEditProduct}
-            data={dataFormEditProduct}
-            onCancel={toggleOpenDialogEditProduct}
-          />
-        </Dialog>
+          optionsField="categoriesProducts"
+          onClickAdd={(opt) => onClickAdd(opt.id)}
+          onClickEdit={(opt) => onClickEdit(opt)}
+          onClickDelete={(opt) => onClickOpenWarningRemove(opt)}
+        />
+      ))}
+      <CollapseAddButton onClickAdd={() => onClickAdd(null)} />
+      <Dialog
+        title="Categoria/Produto"
+        isOpen={isOpenDialogCreate}
+        onOpenChange={toggleOpenDialogCreate}
+      >
+        <FormCreate
+          onCancel={toggleOpenDialogCreate}
+          handleSubmit={handleAfterSubmitFormCreate}
+          idParent={idParent}
+        />
+      </Dialog>
+      <Dialog
+        title={
+          <div className="flex items-center gap-4">
+            <GiUnicorn />
+            Editar Produto
+          </div>
+        }
+        isOpen={isOpenDialogEditProduct}
+        onOpenChange={toggleOpenDialogEditProduct}
+      >
+        <FormEditProduct
+          handleSubmit={handleAfterSubmitFormEditProduct}
+          data={dataFormEditProduct}
+          onCancel={toggleOpenDialogEditProduct}
+        />
+      </Dialog>
 
-        <Dialog
-          title={
-            <div className="flex items-center gap-4">
-              <MdCategory />
-              Editar Categoria
-            </div>
-          }
-          isOpen={isOpenDialogEditCategory}
-          onOpenChange={toggleOpenDialogEditCategory}
-        >
-          <FormEditCategory
-            handleSubmit={handleAfterSubmitFormEditCategory}
-            data={dataFormEditCategory}
-            onCancel={toggleOpenDialogEditCategory}
-          />
-        </Dialog>
+      <Dialog
+        title={
+          <div className="flex items-center gap-4">
+            <MdCategory />
+            Editar Categoria
+          </div>
+        }
+        isOpen={isOpenDialogEditCategory}
+        onOpenChange={toggleOpenDialogEditCategory}
+      >
+        <FormEditCategory
+          handleSubmit={handleAfterSubmitFormEditCategory}
+          data={dataFormEditCategory}
+          onCancel={toggleOpenDialogEditCategory}
+        />
+      </Dialog>
 
-        <Dialog
-          title="Confirme a remoção"
-          isOpen={isOpenDialogWarningRemove}
-          onOpenChange={toggleOpenDialogWarningRemove}
-        >
-          <FormWarningDelete
-            handleSubmit={handleAfterSubmitFormWarningRemove}
-            onCancel={toggleOpenDialogWarningRemove}
-          />
-        </Dialog>
-      </div>
+      <Dialog
+        title="Confirme a remoção"
+        isOpen={isOpenDialogWarningRemove}
+        onOpenChange={toggleOpenDialogWarningRemove}
+      >
+        <FormWarningDelete
+          handleSubmit={handleAfterSubmitFormWarningRemove}
+          onCancel={toggleOpenDialogWarningRemove}
+        />
+      </Dialog>
     </main>
   );
 }
