@@ -11,7 +11,7 @@ import { CollapseAddButton } from "../CollapseAddButton";
 interface CollapseContainerProps<T> {
   option: T;
   optionsField: keyof T;
-  renderOption: (option: T) => string;
+  renderTitleOption: (option: T) => string;
   onClickEdit: (option: T) => void;
   onClickDelete: (option: T) => void;
   onClickAdd: (option: T) => void;
@@ -22,7 +22,7 @@ export function CollapseContainer<T>(props: CollapseContainerProps<T>) {
   const {
     option,
     optionsField,
-    renderOption,
+    renderTitleOption,
     onClickEdit,
     onClickDelete,
     onClickAdd,
@@ -38,7 +38,7 @@ export function CollapseContainer<T>(props: CollapseContainerProps<T>) {
   if (!haveChildrens(option))
     return (
       <CollapseSimple
-        title={renderOption(option)}
+        title={renderTitleOption(option)}
         onClickEdit={() => onClickEdit(option)}
         onClickDelete={() => onClickDelete(option)}
       />
@@ -58,7 +58,7 @@ export function CollapseContainer<T>(props: CollapseContainerProps<T>) {
           onClick={() => setOpen((prev) => !prev)}
         >
           <div className="flex gap-4 items-center">
-            <MdCategory /> {renderOption(option)}
+            <MdCategory /> {renderTitleOption(option)}
           </div>
 
           <div className="flex gap-4">
@@ -90,7 +90,7 @@ export function CollapseContainer<T>(props: CollapseContainerProps<T>) {
                     key={index}
                     option={nextOption}
                     optionsField={optionsField}
-                    renderOption={renderOption}
+                    renderTitleOption={renderTitleOption}
                     onClickEdit={onClickEdit}
                     onClickDelete={onClickDelete}
                     onClickAdd={onClickAdd}

@@ -5,12 +5,13 @@ import { GiUnicorn } from "react-icons/gi";
 
 interface CollapseSimpleProps {
   title: string;
+  subtitle?: string;
   onClickEdit: () => void;
   onClickDelete: () => void;
 }
 
 export function CollapseSimple(props: CollapseSimpleProps) {
-  const { title, onClickEdit, onClickDelete } = props;
+  const { title, subtitle, onClickEdit, onClickDelete } = props;
 
   return (
     <button
@@ -23,7 +24,8 @@ export function CollapseSimple(props: CollapseSimpleProps) {
     >
       <div className="flex gap-2 items-center">
         <GiUnicorn />
-        {title}
+        <div>{title}</div>
+        <div className="text-gray-500">{subtitle}</div>
       </div>
       <div className="hidden items-center space-x-3 group-hover:flex">
         <MdEdit

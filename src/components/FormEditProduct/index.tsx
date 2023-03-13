@@ -31,7 +31,7 @@ export function FormEditProduct(props: FormEditProductProps) {
         id: data?.id,
         name: form.get("name") as string,
         nrRequest: nrRequest ? nrRequest : null,
-        dtDeparture: dtDeparture ? new Date(dtDeparture) : null,
+        dtDeparture: dtDeparture,
       };
       await axios.put("/api/product", dataRequest);
       handleSubmit();

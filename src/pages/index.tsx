@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 
 import axios from "axios";
+import moment from "moment";
 
 import { CollapseAddButton } from "@/components/CollapseAddButton";
 import { CollapseContainer } from "@/components/CollapseContainer";
@@ -19,11 +20,13 @@ export interface Product {
   dtCreate: string;
   dtDeparture?: string;
   nrRequest?: string;
+  categoryProductId?: string;
 }
 
 export interface Category {
   id: string;
   name: string;
+  categoryProductId?: string;
 }
 
 export interface CategoryProductProps {
@@ -156,7 +159,7 @@ export default function Home() {
           key={d.id}
           option={d}
           haveChildrens={(opt) => opt.category !== null}
-          renderOption={(opt) =>
+          renderTitleOption={(opt) =>
             opt.category
               ? opt.category.name
               : opt.product

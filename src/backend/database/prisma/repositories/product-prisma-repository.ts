@@ -2,6 +2,8 @@ import { ProductRepository } from "@/backend/repositories/product-repository";
 import { UpdateProductRequest } from "@/backend/use-cases/update-product";
 import { PrismaClient } from "@prisma/client";
 
+import moment from "moment";
+
 export class ProductPrismaRepository implements ProductRepository {
   private prisma = new PrismaClient();
 
@@ -14,7 +16,9 @@ export class ProductPrismaRepository implements ProductRepository {
         data: {
           name: product.name,
           nrRequest: product.nrRequest,
-          dtDeparture: product.dtDeparture,
+          dtDeparture: product.dtDeparture
+            ? moment(product.dtDeparture).toDate()
+            : undefined,
         },
       });
     } catch (err: any) {
@@ -29,6 +33,9 @@ export class ProductPrismaRepository implements ProductRepository {
           dtDeparture: {
             not: null,
           },
+        },
+        orderBy: {
+          dtDeparture: "desc",
         },
       });
     } catch (err: any) {
