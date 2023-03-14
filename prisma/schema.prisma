@@ -35,11 +35,13 @@ model Category {
 }
 
 model Product {
-  id          String    @id
-  name        String
-  dtCreate    DateTime
-  dtDeparture DateTime?
-  nrRequest   String?
+  id                String    @id
+  name              String
+  dtCreate          DateTime
+  dtDeparture       DateTime?
+  nrRequest         String?
+  nrRequestSupplier String?
+  nrInvoice         String?
 
   categoryProduct   CategoryProduct @relation(fields: [categoryProductId], references: [id], onDelete: Cascade)
   categoryProductId String          @unique

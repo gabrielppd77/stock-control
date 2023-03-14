@@ -63,6 +63,20 @@ export default function StockOutput() {
     }
   }
 
+  async function onClickChangeStock(productId: string) {
+    setLoading(true);
+    try {
+      await axios.patch("/api/product", {
+        id: productId,
+      });
+      getData();
+    } catch (error: any) {
+      throw new Error(error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
   return (
     <main>
       {isLoading ? (
@@ -78,6 +92,7 @@ export default function StockOutput() {
             subtitle={moment(dt?.dtDeparture).format("DD/MM/yyyy")}
             onClickDelete={() => onClickDelete(dt?.categoryProductId)}
             onClickEdit={() => onClickEdit(dt)}
+            onClickChangeStock={() => onClickChangeStock(dt.id)}
           />
         ))}
       </div>

@@ -6,6 +6,8 @@ interface ProductProps {
   dtCreate: Date;
   dtDeparture?: Date;
   nrRequest?: string;
+  nrRequestSupplier?: string;
+  nrInvoice?: string;
 }
 
 interface ProductPropsConstructor
@@ -38,5 +40,11 @@ export class Product {
   }
   public get nrRequest() {
     return this.props.nrRequest;
+  }
+  public get nrRequestSupplier() {
+    return this.props.nrRequestSupplier;
+  }
+  public get nrInvoice() {
+    return this.props.nrInvoice;
   }
 }

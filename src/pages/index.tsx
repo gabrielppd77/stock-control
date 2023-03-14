@@ -1,18 +1,16 @@
 import { useCallback, useEffect, useState } from "react";
 
 import axios from "axios";
-import moment from "moment";
 
 import { CollapseAddButton } from "@/components/CollapseAddButton";
 import { CollapseContainer } from "@/components/CollapseContainer";
-import { FormCreate } from "@/components/FormCreate";
 import { FormEditProduct } from "@/components/FormEditProduct";
 import { Dialog } from "@/components/Dialog";
 import { FormWarningDelete } from "@/components/FormWarningDelete";
 import { FormEditCategory } from "@/components/FormEditCategory";
+import { FormCreateProduct } from "@/components/FormCreateProduct";
 
-import { GiUnicorn } from "react-icons/gi";
-import { MdCategory } from "react-icons/md";
+import { FormCreateCategory } from "@/components/FormCreateCategory";
 
 export interface Product {
   id: string;
@@ -21,6 +19,8 @@ export interface Product {
   dtDeparture?: string;
   nrRequest?: string;
   categoryProductId?: string;
+  nrRequestSupplier?: string;
+  nrInvoice?: string;
 }
 
 export interface Category {
@@ -44,11 +44,12 @@ export default function Home() {
   const [dataFormEditCategory, setDataFormEditCategory] = useState<Category>();
   const [idParent, setIdParent] = useState<string | null>("");
   const [isLoading, setLoading] = useState(false);
-  const [isOpenDialogCreate, setOpenDialogCreate] = useState(false);
+  const [isOpenDialogCreateCategory, setOpenDialogCreate] = useState(false);
   const [isOpenDialogEditProduct, setOpenDialogEditProduct] = useState(false);
   const [isOpenDialogEditCategory, setOpenDialogEditCategory] = useState(false);
   const [isOpenDialogWarningRemove, setOpenDialogWarningRemove] =
     useState(false);
+  const [isOpenCreateProduct, setOpenDialogMultiply] = useState(false);
   const [dataDialogWarningRemove, setDataDialogWarningRemove] =
     useState<CategoryProductProps>();
 
@@ -68,13 +69,14 @@ export default function Home() {
     getData();
   }, [getData]);
 
-  function toggleOpenDialogCreate() {
+  function toggleOpenDialogCreateCategory() {
     setOpenDialogCreate((prev) => !prev);
   }
 
   function toggleOpenDialogEditProduct() {
     setOpenDialogEditProduct((prev) => !prev);
   }
+
   function toggleOpenDialogEditCategory() {
     setOpenDialogEditCategory((prev) => !prev);
   }
@@ -83,14 +85,23 @@ export default function Home() {
     setOpenDialogWarningRemove((prev) => !prev);
   }
 
-  async function handleAfterSubmitFormCreate() {
+  function toggleOpenDialogCreateProduct() {
+    setOpenDialogMultiply((prev) => !prev);
+  }
+
+  async function handleAfterSubmitFormCreateCategory() {
     getData();
-    toggleOpenDialogCreate();
+    toggleOpenDialogCreateCategory();
   }
 
   async function handleAfterSubmitFormEditProduct() {
     getData();
     toggleOpenDialogEditProduct();
+  }
+
+  async function handleAfterSubmitCreateProduct() {
+    getData();
+    toggleOpenDialogCreateProduct();
   }
 
   async function handleAfterSubmitFormEditCategory() {
@@ -107,7 +118,7 @@ export default function Home() {
 
   function onClickAdd(parentId: string | null) {
     setIdParent(parentId);
-    toggleOpenDialogCreate();
+    toggleOpenDialogCreateCategory();
   }
 
   function onClickEditProduct(product: Product) {
@@ -131,6 +142,11 @@ export default function Home() {
     setDataDialogWarningRemove(categoryProduct);
   }
 
+  function onClickMultiply(parentId: string | null) {
+    setIdParent(parentId);
+    toggleOpenDialogCreateProduct();
+  }
+
   async function onClickDelete(categoryProduct: CategoryProductProps) {
     setLoading(true);
     try {
@@ -138,6 +154,20 @@ export default function Home() {
         data: {
           id: categoryProduct.id,
         },
+      });
+      getData();
+    } catch (error: any) {
+      throw new Error(error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function onClickChangeStock(productId: string) {
+    setLoading(true);
+    try {
+      await axios.patch("/api/product", {
+        id: productId,
       });
       getData();
     } catch (error: any) {
@@ -170,27 +200,41 @@ export default function Home() {
           onClickAdd={(opt) => onClickAdd(opt.id)}
           onClickEdit={(opt) => onClickEdit(opt)}
           onClickDelete={(opt) => onClickOpenWarningRemove(opt)}
+          onClickMultiply={(opt) => onClickMultiply(opt.id)}
+          onClickChangeStock={(opt) => onClickChangeStock(opt.product.id)}
         />
       ))}
-      <CollapseAddButton onClickAdd={() => onClickAdd(null)} />
+      <CollapseAddButton
+        onClickAdd={() => onClickAdd(null)}
+        title="Adicionar Categoria"
+      />
+
       <Dialog
-        title="Categoria/Produto"
-        isOpen={isOpenDialogCreate}
-        onOpenChange={toggleOpenDialogCreate}
+        title="Adicionar uma Categoria"
+        isOpen={isOpenDialogCreateCategory}
+        onOpenChange={toggleOpenDialogCreateCategory}
       >
-        <FormCreate
-          onCancel={toggleOpenDialogCreate}
-          handleSubmit={handleAfterSubmitFormCreate}
+        <FormCreateCategory
+          onCancel={toggleOpenDialogCreateCategory}
+          handleSubmit={handleAfterSubmitFormCreateCategory}
           idParent={idParent}
         />
       </Dialog>
+
       <Dialog
-        title={
-          <div className="flex items-center gap-4">
-            <GiUnicorn />
-            Editar Produto
-          </div>
-        }
+        title="Adicionar Produtos"
+        isOpen={isOpenCreateProduct}
+        onOpenChange={toggleOpenDialogCreateProduct}
+      >
+        <FormCreateProduct
+          idParent={idParent}
+          onCancel={toggleOpenDialogCreateProduct}
+          handleSubmit={handleAfterSubmitCreateProduct}
+        />
+      </Dialog>
+
+      <Dialog
+        title="Editar Produto"
         isOpen={isOpenDialogEditProduct}
         onOpenChange={toggleOpenDialogEditProduct}
       >
@@ -202,12 +246,7 @@ export default function Home() {
       </Dialog>
 
       <Dialog
-        title={
-          <div className="flex items-center gap-4">
-            <MdCategory />
-            Editar Categoria
-          </div>
-        }
+        title="Editar Categoria"
         isOpen={isOpenDialogEditCategory}
         onOpenChange={toggleOpenDialogEditCategory}
       >

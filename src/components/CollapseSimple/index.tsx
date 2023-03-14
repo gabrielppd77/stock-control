@@ -1,17 +1,20 @@
 import clsx from "clsx";
 
 import { MdEdit, MdClose } from "react-icons/md";
-import { GiUnicorn } from "react-icons/gi";
+import { FaSitemap } from "react-icons/fa";
+import { BsArrowLeftRight } from "react-icons/bs";
 
 interface CollapseSimpleProps {
   title: string;
   subtitle?: string;
   onClickEdit: () => void;
   onClickDelete: () => void;
+  onClickChangeStock: () => void;
 }
 
 export function CollapseSimple(props: CollapseSimpleProps) {
-  const { title, subtitle, onClickEdit, onClickDelete } = props;
+  const { title, subtitle, onClickEdit, onClickDelete, onClickChangeStock } =
+    props;
 
   return (
     <button
@@ -23,18 +26,25 @@ export function CollapseSimple(props: CollapseSimpleProps) {
       )}
     >
       <div className="flex gap-2 items-center">
-        <GiUnicorn />
+        <FaSitemap />
         <div>{title}</div>
         <div className="text-gray-500">{subtitle}</div>
       </div>
       <div className="hidden items-center space-x-3 group-hover:flex">
+        <BsArrowLeftRight
+          className="cursor-pointer text-base text-gray-500 hover:text-gray-700"
+          onClick={onClickChangeStock}
+          title="Alterar Estoque"
+        />
         <MdEdit
           className="cursor-pointer text-base text-gray-500 hover:text-gray-700"
           onClick={onClickEdit}
+          title="Editar"
         />
         <MdClose
           className="cursor-pointer text-base text-gray-500 hover:text-gray-700"
           onClick={onClickDelete}
+          title="Deletar"
         />
       </div>
     </button>

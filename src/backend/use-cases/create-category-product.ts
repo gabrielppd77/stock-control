@@ -8,14 +8,22 @@ interface CreateCategoryProductRequest {
   categoryName?: string;
   productName?: string;
   productNrRequest?: string;
+  nrRequestSupplier?: string;
+  nrInvoice?: string;
 }
 
 export class CreateCategoryProduct {
   constructor(private categoryProductRepository: CategoryProductRepository) {}
   async execute(req: CreateCategoryProductRequest): Promise<void> {
     try {
-      const { categoryName, productName, productNrRequest, categoryProductId } =
-        req;
+      const {
+        categoryName,
+        productName,
+        productNrRequest,
+        categoryProductId,
+        nrInvoice,
+        nrRequestSupplier,
+      } = req;
 
       const categoryProduct = new CategoryProduct({
         category: categoryName
@@ -25,6 +33,8 @@ export class CreateCategoryProduct {
           ? new Product({
               name: productName,
               nrRequest: productNrRequest,
+              nrInvoice: nrInvoice,
+              nrRequestSupplier: nrRequestSupplier,
             })
           : undefined,
         categoryProductId,

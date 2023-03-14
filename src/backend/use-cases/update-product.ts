@@ -5,6 +5,8 @@ export interface UpdateProductRequest {
   name: string;
   nrRequest?: string;
   dtDeparture?: string;
+  nrRequestSupplier?: string;
+  nrInvoice?: string;
 }
 
 export class UpdateProduct {

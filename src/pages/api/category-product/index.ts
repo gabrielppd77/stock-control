@@ -29,14 +29,22 @@ async function create(req: NextApiRequest, res: NextApiResponse) {
       categoryProductPrismaRepository
     );
 
-    const { categoryProductId, categoryName, productName, productNrRequest } =
-      req.body;
+    const {
+      categoryProductId,
+      categoryName,
+      productName,
+      productNrRequest,
+      nrInvoice,
+      nrRequestSupplier,
+    } = req.body;
 
     await createCategoryProduct.execute({
       categoryProductId,
       categoryName,
       productName,
       productNrRequest,
+      nrInvoice,
+      nrRequestSupplier,
     });
 
     return res.status(201).send("Categoria/Produto criado com sucesso!");

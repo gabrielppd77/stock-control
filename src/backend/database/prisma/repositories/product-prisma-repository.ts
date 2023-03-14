@@ -18,7 +18,9 @@ export class ProductPrismaRepository implements ProductRepository {
           nrRequest: product.nrRequest,
           dtDeparture: product.dtDeparture
             ? moment(product.dtDeparture).toDate()
-            : undefined,
+            : null,
+          nrInvoice: product.nrInvoice,
+          nrRequestSupplier: product.nrRequestSupplier,
         },
       });
     } catch (err: any) {
@@ -36,6 +38,27 @@ export class ProductPrismaRepository implements ProductRepository {
         },
         orderBy: {
           dtDeparture: "desc",
+        },
+      });
+    } catch (err: any) {
+      throw new Error(err);
+    }
+  }
+
+  async updateDeparture(productId: string): Promise<void> {
+    try {
+      const product = await this.prisma.product.findFirst({
+        where: {
+          id: productId,
+        },
+      });
+      product?.dtDeparture;
+      await this.prisma.product.update({
+        where: {
+          id: productId,
+        },
+        data: {
+          dtDeparture: product?.dtDeparture ? null : new Date(),
         },
       });
     } catch (err: any) {

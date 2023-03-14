@@ -31,6 +31,8 @@ export class CategoryProductPrismaMapper {
             dtDeparture: categoryProductDomain.product.dtDeparture,
             name: categoryProductDomain.product.name,
             nrRequest: categoryProductDomain.product.nrRequest,
+            nrInvoice: categoryProductDomain.product.nrInvoice,
+            nrRequestSupplier: categoryProductDomain.product.nrRequestSupplier,
           }
         : null
     ) as ProductPrisma | null;
@@ -62,6 +64,9 @@ export class CategoryProductPrismaMapper {
           name: categoryProductPrisma.product.name,
           dtDeparture: categoryProductPrisma.product?.dtDeparture || undefined,
           nrRequest: categoryProductPrisma.product?.nrRequest || undefined,
+          nrInvoice: categoryProductPrisma.product?.nrInvoice || undefined,
+          nrRequestSupplier:
+            categoryProductPrisma.product?.nrRequestSupplier || undefined,
         })
       : undefined;
 

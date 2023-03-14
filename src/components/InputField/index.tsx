@@ -10,6 +10,8 @@ interface InputFieldProps {
   autoComplete?: string;
   required?: boolean;
   disabled?: boolean;
+  min?: number;
+  max?: number;
 }
 
 export function InputField(props: InputFieldProps) {
@@ -23,9 +25,11 @@ export function InputField(props: InputFieldProps) {
     disabled,
     defaultValue,
     type = "text",
+    min,
+    max,
   } = props;
   return (
-    <fieldset>
+    <fieldset className="w-full">
       <label
         htmlFor={id}
         className="text-md font-medium text-gray-700 dark:text-gray-400"
@@ -48,6 +52,8 @@ export function InputField(props: InputFieldProps) {
         required={required}
         defaultValue={defaultValue}
         disabled={disabled}
+        min={min}
+        max={max}
       />
     </fieldset>
   );

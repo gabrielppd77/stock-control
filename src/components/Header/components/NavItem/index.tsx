@@ -15,13 +15,14 @@ export function NavItem(props: NavItemProps) {
   const isHightLight = asPath !== link;
 
   return (
-    <Link
-      href={link}
-      className={`${
-        isHightLight && "brightness-50"
-      } font-bold text-lg hover:brightness-75 duration-200`}
-    >
-      {label}
+    <Link href={link}>
+      <div
+        className={`${
+          isHightLight && "brightness-50"
+        } font-bold text-lg hover:brightness-75 duration-200`}
+      >
+        {label}
+      </div>
     </Link>
   );
 }
