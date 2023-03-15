@@ -8,11 +8,7 @@ export interface UpdateCategoryRequest {
 export class UpdateCategory {
   constructor(private categoryRepository: CategoryRepository) {}
   async execute(req: UpdateCategoryRequest) {
-    try {
-      const { id, name } = req;
-      await this.categoryRepository.update({ id, name });
-    } catch (err: any) {
-      throw new Error(err);
-    }
+    const { id, name } = req;
+    await this.categoryRepository.update({ id, name });
   }
 }

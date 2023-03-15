@@ -14,32 +14,28 @@ interface CreateMultipleProductsRequest {
 export class CreateMultipleProducts {
   constructor(private categoryProductRepository: CategoryProductRepository) {}
   async execute(req: CreateMultipleProductsRequest): Promise<void> {
-    try {
-      const {
-        categoryProductId,
-        productName,
-        productNrRequest,
-        nrInvoice,
-        nrRequestSupplier,
-        numberToMultiply,
-      } = req;
+    const {
+      categoryProductId,
+      productName,
+      productNrRequest,
+      nrInvoice,
+      nrRequestSupplier,
+      numberToMultiply,
+    } = req;
 
-      for (let index = 0; index < numberToMultiply; index++) {
-        await this.categoryProductRepository.create(
-          new CategoryProduct({
-            categoryProductId,
-            product: new Product({
-              name: productName ? productName : (index + 1).toString(),
-              nrRequest: productNrRequest,
-              nrInvoice: nrInvoice,
-              nrRequestSupplier: nrRequestSupplier,
-            }),
-            category: undefined,
-          })
-        );
-      }
-    } catch (err: any) {
-      throw new Error(err);
+    for (let index = 0; index < numberToMultiply; index++) {
+      await this.categoryProductRepository.create(
+        new CategoryProduct({
+          categoryProductId,
+          product: new Product({
+            name: productName ? productName : (index + 1).toString(),
+            nrRequest: productNrRequest,
+            nrInvoice: nrInvoice,
+            nrRequestSupplier: nrRequestSupplier,
+          }),
+          category: undefined,
+        })
+      );
     }
   }
 }

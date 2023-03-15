@@ -17,7 +17,7 @@ export function FormWarningDelete(props: FormWarningDeleteProps) {
         <Button variant="outlined" onClick={onCancel}>
           Cancelar
         </Button>
-        <Button type="button" onClick={handleSubmit}>
+        <Button type="button" autoFocus onClick={handleSubmit}>
           Confirmar
         </Button>
       </div>

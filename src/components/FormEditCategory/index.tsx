@@ -29,8 +29,8 @@ export function FormEditCategory(props: FormEditCategoryProps) {
       };
       await axios.put("/api/category", dataRequest);
       handleSubmit();
-    } catch (error) {
-      console.error(error);
+    } catch (error: any) {
+      throw new Error(error);
     } finally {
       setLoading(false);
     }

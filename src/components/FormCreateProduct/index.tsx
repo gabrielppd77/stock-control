@@ -31,8 +31,8 @@ export function FormCreateProduct(props: FormCreateProductProps) {
       };
       await axios.post("/api/category-product/create-many", dataRequest);
       handleSubmit();
-    } catch (error) {
-      console.error(error);
+    } catch (error: any) {
+      throw new Error(error);
     } finally {
       setLoading(false);
     }

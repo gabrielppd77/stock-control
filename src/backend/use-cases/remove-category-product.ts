@@ -3,10 +3,6 @@ import { CategoryProductRepository } from "../repositories/category-product-repo
 export class RemoveCategoryProduct {
   constructor(private categoryProductRepository: CategoryProductRepository) {}
   async execute(idToRemove: string): Promise<void> {
-    try {
-      await this.categoryProductRepository.remove(idToRemove);
-    } catch (error: any) {
-      throw new Error(error);
-    }
+    await this.categoryProductRepository.remove(idToRemove);
   }
 }

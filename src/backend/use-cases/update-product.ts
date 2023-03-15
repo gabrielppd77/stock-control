@@ -12,10 +12,6 @@ export interface UpdateProductRequest {
 export class UpdateProduct {
   constructor(private productRepository: ProductRepository) {}
   async execute(req: UpdateProductRequest) {
-    try {
-      await this.productRepository.update(req);
-    } catch (err: any) {
-      throw new Error(err);
-    }
+    await this.productRepository.update(req);
   }
 }

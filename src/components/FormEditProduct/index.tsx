@@ -39,8 +39,8 @@ export function FormEditProduct(props: FormEditProductProps) {
       };
       await axios.put("/api/product", dataRequest);
       handleSubmit();
-    } catch (error) {
-      console.error(error);
+    } catch (error: any) {
+      throw new Error(error);
     } finally {
       setLoading(false);
     }

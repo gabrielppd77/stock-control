@@ -27,8 +27,8 @@ export function FormCreateCategory(props: FormCreateCategoryProps) {
       };
       await axios.post("/api/category-product", data);
       handleSubmit();
-    } catch (error) {
-      console.error(error);
+    } catch (error: any) {
+      throw new Error(error);
     } finally {
       setLoading(false);
     }

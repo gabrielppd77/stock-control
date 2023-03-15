@@ -8,6 +8,7 @@ interface ButtonProps {
   type?: "button" | "submit" | "reset";
   onClick?: () => void;
   isLoading?: boolean;
+  autoFocus?: boolean;
 }
 
 export function Button(props: ButtonProps) {
@@ -17,6 +18,7 @@ export function Button(props: ButtonProps) {
     type = "button",
     onClick,
     isLoading = false,
+    autoFocus,
   } = props;
   return (
     <button
@@ -30,6 +32,7 @@ export function Button(props: ButtonProps) {
       type={type}
       onClick={onClick}
       disabled={isLoading}
+      autoFocus={autoFocus}
     >
       {isLoading ? (
         <AiOutlineLoading3Quarters className="animate-spin h-5 w-5 mr-3" />

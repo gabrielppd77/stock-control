@@ -15,34 +15,28 @@ interface CreateCategoryProductRequest {
 export class CreateCategoryProduct {
   constructor(private categoryProductRepository: CategoryProductRepository) {}
   async execute(req: CreateCategoryProductRequest): Promise<void> {
-    try {
-      const {
-        categoryName,
-        productName,
-        productNrRequest,
-        categoryProductId,
-        nrInvoice,
-        nrRequestSupplier,
-      } = req;
+    const {
+      categoryName,
+      productName,
+      productNrRequest,
+      categoryProductId,
+      nrInvoice,
+      nrRequestSupplier,
+    } = req;
 
-      const categoryProduct = new CategoryProduct({
-        category: categoryName
-          ? new Category({ name: categoryName })
-          : undefined,
-        product: productName
-          ? new Product({
-              name: productName,
-              nrRequest: productNrRequest,
-              nrInvoice: nrInvoice,
-              nrRequestSupplier: nrRequestSupplier,
-            })
-          : undefined,
-        categoryProductId,
-      });
+    const categoryProduct = new CategoryProduct({
+      category: categoryName ? new Category({ name: categoryName }) : undefined,
+      product: productName
+        ? new Product({
+            name: productName,
+            nrRequest: productNrRequest,
+            nrInvoice: nrInvoice,
+            nrRequestSupplier: nrRequestSupplier,
+          })
+        : undefined,
+      categoryProductId,
+    });
 
-      await this.categoryProductRepository.create(categoryProduct);
-    } catch (err: any) {
-      throw new Error(err);
-    }
+    await this.categoryProductRepository.create(categoryProduct);
   }
 }

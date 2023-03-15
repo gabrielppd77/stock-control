@@ -7,17 +7,13 @@ export class CategoryPrismaRepository implements CategoryRepository {
   private prisma = new PrismaClient();
 
   async update(categoryRequest: UpdateCategoryRequest): Promise<void> {
-    try {
-      await this.prisma.category.update({
-        where: {
-          id: categoryRequest.id,
-        },
-        data: {
-          name: categoryRequest.name,
-        },
-      });
-    } catch (err: any) {
-      throw new Error(err);
-    }
+    await this.prisma.category.update({
+      where: {
+        id: categoryRequest.id,
+      },
+      data: {
+        name: categoryRequest.name,
+      },
+    });
   }
 }
