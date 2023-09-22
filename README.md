@@ -1,38 +1,81 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<a name="readme-top"></a>
+<!--
+*** Thanks for checking out the Best-README-Template. If you have a suggestion
+*** that would make this better, please fork the repo and create a pull request
+*** or simply open an issue with the tag "enhancement".
+*** Don't forget to give the project a star!
+*** Thanks again! Now go create something AMAZING! :D
+-->
 
-## Getting Started
 
-First, run the development server:
+<!-- PROJECT LOGO -->
+<div align="center">
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+<h1 align="center">Stock-Control</h1>
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+  <p align="center">
+    Simple stock manager
+    <br />
+    <a href="https://stock-control-ten.vercel.app/">View Demo</a>
+  </p>
+</div>
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+<!-- ABOUT THE PROJECT -->
+## About The Project
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+A simple application to test important concepts in programming
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+- Purpose of the application stock-control:
+    - Develop a simple application.
+    - Develop a app fullstack with Next.
+    - Apply DDD principles in the backend
+    - Connect the backend with the Postgres database using PrismaORM
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+### Built With
 
-## Learn More
+- ![Next JS](https://img.shields.io/badge/Next-black?style=for-the-badge&logo=next.js&logoColor=white)
+- ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
+- ![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
+- ![Prisma](https://img.shields.io/badge/Prisma-3982CE?style=for-the-badge&logo=Prisma&logoColor=white)
+- ![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)
+- ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
+- DDD
 
-To learn more about Next.js, take a look at the following resources:
+### Installation
+ 
+1. Clone the repo
+   ```sh
+   git clone https://github.com/gabrielppd77/stock-control
+   ```
+2. Install NPM packages
+   ```sh
+   npm install
+   ```
+3. Config base url in .env
+   ```js
+   DATABASE_URL="postgresql://johndoe:randompassword@localhost:5432/mydb?schema=public"
+   ```
+4. Config Database
+   ```sh
+   npm run docker
+   ```
+5. Run migrations
+   ```sh
+   npx prisma migrate dev
+   ```
+6. Start project
+   ```sh
+   npm run dev
+   ```
+   
+<!-- CONTACT -->
+## Contact
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Gabriel Domingos - [@linkedin](https://www.linkedin.com/in/gabrielppd77/) - gabrielppd77@outlook.com
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+Project Link: [https://github.com/gabrielppd77/stock-control](https://github.com/gabrielppd77/stock-control)
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+[Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
+[Next-url]: https://nextjs.org/
+[React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
+[React-url]: https://reactjs.org/
