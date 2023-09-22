@@ -26,11 +26,13 @@
 A simple application to test important concepts in programming
 
 - Purpose of the application stock-control:
-    - Develop a simple application.
-    - Develop a app fullstack with Next.
-    - Apply DDD principles in the backend
-    - Connect the backend with the Postgres database using PrismaORM
-
+  - Develop a simple application.
+  - Develop a app fullstack with Next.
+  - Apply DDD principles in the backend
+  - Connect the backend with the Postgres database using PrismaORM
+- Observation:
+  - The application may take a while to start as the database is hosted on the Supabase platform on free plans
+  
 ### Built With
 
 - ![Next JS](https://img.shields.io/badge/Next-black?style=for-the-badge&logo=next.js&logoColor=white)
@@ -53,7 +55,7 @@ A simple application to test important concepts in programming
    ```
 3. Config base url in .env
    ```js
-   DATABASE_URL="postgresql://johndoe:randompassword@localhost:5432/mydb?schema=public"
+   DATABASE_URL="postgresql://postgres:1234567@localhost:5432/stock-control?schema=public"
    ```
 4. Config Database
    ```sh
